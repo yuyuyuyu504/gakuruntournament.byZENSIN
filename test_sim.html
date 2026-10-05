@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    const SUPABASE_URL = 'https://qqrajzrsmzssmoxuxsfc.supabase.co/';
+    const SUPABASE_ANON_KEY = 'sb_publishable_Hc-sej3m75aMMBjhZ43U1Q_GGDlN5AN';
+    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+  </script>
+</head>
+<body>
+  <div id="output">Running...</div>
+  <script>
+    async function test() {
+      const out = document.getElementById('output');
+      const info = [];
+      try {
+        info.push('window.supabase: ' + typeof window.supabase);
+        info.push('supabase: ' + typeof supabase);
+        info.push('supabase.from: ' + (typeof supabase !== 'undefined' ? typeof supabase.from : 'undefined'));
+        if (typeof supabase !== 'undefined' && supabase.from) {
+          const res = await supabase.from('teams').select('*');
+          info.push('select data length: ' + (res.data ? res.data.length : 'null'));
+          info.push('select error: ' + JSON.stringify(res.error));
+          info.push('sample row: ' + JSON.stringify(res.data ? res.data[0] : null));
+        }
+      } catch (e) {
+        info.push('Error: ' + e.message);
+      }
+      out.innerText = info.join('\n');
+    }
+    test();
+  </script>
+</body>
+</html>

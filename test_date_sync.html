@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head><meta charset="UTF-8"></head>
+<body>
+  <div id="out"></div>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    (function() {
+      const SUPABASE_URL = 'https://qqrajzrsmzssmoxuxsfc.supabase.co';
+      const SUPABASE_ANON_KEY = 'sb_publishable_Hc-sej3m75aMMBjhZ43U1Q_GGDlN5AN';
+      window.supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+      window.getSupabaseClient = () => window.supabaseClient;
+    })();
+  </script>
+  <div id="ranking-table-body"></div>
+  <div id="ranking-date-breakdown-wrap"></div>
+  <script src="app.js"></script>
+  <script>
+    async function test() {
+      const app = new TournamentApp();
+      await app.syncFromSupabase(true);
+      document.getElementById('out').innerText = document.getElementById('ranking-date-breakdown-wrap').innerHTML;
+    }
+    test();
+  </script>
+</body>
+</html>

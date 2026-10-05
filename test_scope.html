@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    const SUPABASE_URL = 'https://qqrajzrsmzssmoxuxsfc.supabase.co/';
+    const SUPABASE_ANON_KEY = 'sb_publishable_Hc-sej3m75aMMBjhZ43U1Q_GGDlN5AN';
+    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+  </script>
+</head>
+<body>
+  <div id="test-result">Pending</div>
+  <script>
+    // This simulates app.js in a separate script tag
+    const res = {
+      window_supabase_has_from: typeof window.supabase.from,
+      window_supabase_has_createClient: typeof window.supabase.createClient,
+      scoped_supabase_has_from: typeof supabase.from,
+      scoped_supabase_has_createClient: typeof supabase.createClient,
+      are_they_same: window.supabase === supabase
+    };
+    document.getElementById('test-result').textContent = JSON.stringify(res, null, 2);
+  </script>
+</body>
+</html>

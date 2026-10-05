@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html><head>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+  <div id="res">{"initialRows":[{"id":"test-1","data":{"id":"test-1","name":"TEST TEAM","server":"TEST SERVER"},"created_at":"2026-09-18T18:05:31.374467+00:00","updated_at":"2026-09-18T18:05:31.374467+00:00"}],"selectErr":null,"insertResult":[{"id":"team-1789757706866","data":{"name":"TEST REAL TIME","server":"TEST SERVER","timestamp":1789757706866},"created_at":"2026-09-18T18:55:07.743077+00:00","updated_at":"2026-09-18T18:55:07.743077+00:00"}],"insertErr":null,"afterRows":[{"id":"test-1","data":{"id":"test-1","name":"TEST TEAM","server":"TEST SERVER"},"created_at":"2026-09-18T18:05:31.374467+00:00","updated_at":"2026-09-18T18:05:31.374467+00:00"},{"id":"team-1789757706866","data":{"name":"TEST REAL TIME","server":"TEST SERVER","timestamp":1789757706866},"created_at":"2026-09-18T18:55:07.743077+00:00","updated_at":"2026-09-18T18:55:07.743077+00:00"}],"afterErr":null}</div>
+  <script>
+    async function checkSupabase() {
+      const res = document.getElementById('res');
+      try {
+        const SUPABASE_URL = 'https://qqrajzrsmzssmoxuxsfc.supabase.co/';
+        const SUPABASE_ANON_KEY = 'sb_publishable_Hc-sej3m75aMMBjhZ43U1Q_GGDlN5AN';
+        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        
+        // 1. Check select
+        const { data: selectData, error: selectErr } = await supabase.from('teams').select('*');
+        
+        // 2. Try insert
+        const newId = 'team-' + Date.now();
+        const { data: insertData, error: insertErr } = await supabase.from('teams').insert({
+          id: newId,
+          data: { name: "TEST REAL TIME", server: "TEST SERVER", timestamp: Date.now() }
+        }).select();
+        
+        // 3. Select again
+        const { data: afterData, error: afterErr } = await supabase.from('teams').select('*');
+        
+        res.innerText = JSON.stringify({
+          initialRows: selectData,
+          selectErr: selectErr,
+          insertResult: insertData,
+          insertErr: insertErr,
+          afterRows: afterData,
+          afterErr: afterErr
+        });
+      } catch(e) {
+        res.innerText = 'EXCEPTION: ' + e.message;
+      }
+    }
+    checkSupabase();
+  </script>
+
+
+</body></html>
